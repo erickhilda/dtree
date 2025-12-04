@@ -34,3 +34,5 @@ Thumbs.db
 *.md
 tree.*
 
+# exclude README.md
+!README.md
