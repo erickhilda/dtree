@@ -10,7 +10,6 @@ import (
 	"dtree/internal/color"
 	"dtree/internal/export"
 	"dtree/internal/tree"
-	"dtree/internal/tui"
 )
 
 var (
@@ -26,7 +25,6 @@ var (
 	exportMD    bool
 	exportPlain bool
 	outputFile  string
-	interactive bool
 )
 
 var rootCmd = &cobra.Command{
@@ -50,7 +48,6 @@ func init() {
 	rootCmd.Flags().BoolVar(&exportMD, "md", false, "Export as Markdown")
 	rootCmd.Flags().BoolVar(&exportPlain, "plain", false, "Export as plain text (no box characters)")
 	rootCmd.Flags().StringVarP(&outputFile, "output", "o", "", "Output to file")
-	rootCmd.Flags().BoolVarP(&interactive, "interactive", "i", false, "Interactive mode")
 }
 
 func runTree(cmd *cobra.Command, args []string) error {
@@ -86,11 +83,6 @@ func runTree(cmd *cobra.Command, args []string) error {
 	// Setup theme
 	themeEnabled := !noColor && color.IsTTY()
 	theme := color.NewTheme(themeEnabled)
-
-	// Interactive mode
-	if interactive {
-		return tui.Run(root, theme)
-	}
 
 	// Determine output writer
 	var writer *os.File
